@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
             httpOnly: true,
             // Note: use secure cookies only in production (HTTPS), otherwise they won't work on localhost
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
+            sameSite: 'None',
             maxAge: 24 * 60 * 60 * 1000,
         });
 
@@ -73,3 +73,16 @@ exports.login = async (req, res) => {
     }
 };
 
+exports.logout = (req, res) => {
+    try {
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: true,  
+            sameSite: 'None'
+        });
+        res.json({ message: 'Logged out successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Logout failed', error: err.message });
+    }
+};
