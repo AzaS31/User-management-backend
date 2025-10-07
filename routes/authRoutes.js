@@ -7,7 +7,6 @@ const authMiddleware = require('../middlewares/authMiddleware');
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.get('/confirm/:token', emailController.confirmEmail);
-router.post('/logout', authController.logout); 
 
 // note: this route is used by frontend to verify if user is still authenticated
 router.get('/check', authMiddleware, (req, res) => {
