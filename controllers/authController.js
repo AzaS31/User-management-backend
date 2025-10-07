@@ -8,9 +8,12 @@ exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User with this email already exists' });
+        }
         const userId = await User.create({ name, email, password });
 
-        // Note: token is used for email verification
         const token = jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '1d' });
         const confirmLink = `${process.env.FRONTEND_URL}/confirm/${token}`;
 

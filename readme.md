@@ -1,7 +1,7 @@
 # 🧰 User Management Backend
 
 This is a Node.js + Express backend for a simple user management system.  
-It includes **authentication**, **email verification**, **user blocking/unblocking**, and **JWT-based session handling** with cookies.
+It includes **authentication**, **email verification via Gmail API**, **user blocking/unblocking**, and **JWT-based session handling** with cookies.
 
 ---
 
@@ -23,7 +23,7 @@ It includes **authentication**, **email verification**, **user blocking/unblocki
 - **MySQL** — Database  
 - **JWT (jsonwebtoken)** — Authentication  
 - **bcrypt** — Password hashing  
-- **nodemailer** — Sending confirmation emails  
+- **googleapis** — Sending confirmation emails via Gmail API  
 - **dotenv** — Environment variables  
 - **cookie-parser** — Cookie handling  
 - **cors** — Cross-origin resource sharing
@@ -67,9 +67,6 @@ DB_PASSWORD=your_db_password       # Database password
 DB_NAME=your_database_name         # Database name
 
 JWT_SECRET=your_very_long_secret_key   # Secret key for signing JWT tokens
-
-EMAIL_USER=your_email@example.com      # Email address used by Nodemailer to send messages
-EMAIL_PASS=your_email_password_or_app_password   # Password or app-specific password for the email account
 
 FRONTEND_URL=http://localhost:5173     # Frontend URL allowed for CORS and email confirmation links
 NODE_ENV=development                   # Environment mode: 'development' or 'production'
