@@ -8,10 +8,11 @@ exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
-        const existingUser = await User.findOne({ where: { email } });
+        const existingUser = await User.findByEmail(email);
         if (existingUser) {
             return res.status(400).json({ message: 'User with this email already exists' });
         }
+
         const userId = await User.create({ name, email, password });
 
         const token = jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '1d' });
@@ -53,7 +54,7 @@ exports.login = async (req, res) => {
             httpOnly: true,
             // Note: use secure cookies only in production (HTTPS), otherwise they won't work on localhost
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None',
+            sameSite: 'Strict',
             maxAge: 24 * 60 * 60 * 1000,
         });
 
