@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
             httpOnly: true,
             // Note: use secure cookies only in production (HTTPS), otherwise they won't work on localhost
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
+            sameSite: 'None',
             maxAge: 24 * 60 * 60 * 1000,
         });
 
