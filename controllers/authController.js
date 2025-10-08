@@ -47,19 +47,11 @@ exports.login = async (req, res) => {
 
         await User.updateLastLogin(user.id);
 
-        // Note: JWT token is stored in HTTP-only cookie for security
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-
-        res.cookie('token', token, {
-            httpOnly: true,
-            // Note: use secure cookies only in production (HTTPS), otherwise they won't work on localhost
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None',
-            maxAge: 24 * 60 * 60 * 1000,
-        });
 
         res.json({
             message: 'Login successful',
+            token,
             user: {
                 id: user.id,
                 name: user.name,
@@ -71,4 +63,8 @@ exports.login = async (req, res) => {
         console.error(err);
         res.status(500).json({ message: 'Login failed', error: err.message });
     }
+};
+
+exports.logout = (req, res) => {
+    res.json({ message: 'Logged out successfully' });
 };
